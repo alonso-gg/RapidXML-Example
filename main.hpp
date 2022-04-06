@@ -1,6 +1,6 @@
 #include <iostream>
-#include "rapidxml/rapidxml_ext.hpp" //Árbol DOM, Impresión
-#include "rapidxml/rapidxml_utils.hpp"
+#include "rapidxml/rapidxml_ext.hpp" //Clases para manejo del DOM
+#include "rapidxml/rapidxml_utils.hpp" //Clase File
 #include <sstream>
 #include <fstream>
 

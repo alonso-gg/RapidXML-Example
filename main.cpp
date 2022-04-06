@@ -71,7 +71,7 @@ int main(){
 
   //Document to String
   string strXML;
-  print(back_inserter(strXML), myDoc, 0);
+  print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable
   cout << strXML << endl;
 
   return 0;
