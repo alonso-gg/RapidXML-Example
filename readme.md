@@ -34,13 +34,13 @@ myDoc.parse<0>(theFile.data());
 ```
 Ahora toda la información está en un árbol DOM cuya raíz es el objeto ```xml_document```. 
 ## Recorrer la información 
-Recorrer la información se traduce en recorrer un árbol donde cada nodo representa cada elemento del XML. Los elementos del XML se representan como nodos declarados como objetos ```xml_node```. Para obtener el *primer elemento* del XML es tan simple como: 
+Recorrer la información se traduce en recorrer un árbol donde cada nodo representa cada elemento del XML. Los elementos del XML se representan como nodos declarados como objetos ```xml_node```. Para obtener el _primer elemento_*_ del XML es tan simple como: 
 ```c++
 
 xml_node<>* firstNode = myDoc->first_node();
 
 ```
-Ahora ```firstNode``` apunta al primer elemento del XML. Para cada elemento podemos acceder a su nombre y valor, además nos podemos mover al siguiente elemento *en el mismo nivel*. 
+Ahora ```firstNode``` apunta al primer elemento del XML. Para cada elemento podemos acceder a su nombre y valor, además nos podemos mover al siguiente elemento _en el mismo nivel_. 
 ```c++
 
 string theName = firstNode->name();
@@ -75,7 +75,49 @@ Si queremos buscar un elemento o atributo específico, basta con escribir su nom
 ```c++
 
 xml_node<>* theDog = myDoc->first_node("dog"); //Primer elemento 'dog' en el XML
-xml_attribute<>* theAttrib = firstNode->first_attribute()
+xml_attribute<>* theAge = theDog->first_attribute("age") //Atributo 'age' del elemento 'dog'
+
+xml_node<>* theCat = theDog->next_sibling("cat"); //Primer elemento 'cat' que esté después del elemento 'dog'
 
 ``` 
+## Agregar nuevos elementos 
+Para agregar información a nuestro XML debemos usar métodos ```allocate``` para enlazar los nuevos strings con el árbol DOM. En caso de agregar un elemento, debemos indicar que es un  ```node_element``` y su nombre. Luego de esto podemos agregarle atributos y un valor. Para los atributos debemos indicar el nombre del atributo y su valor.
+```c++
 
+xml_node<> *newNode = myDoc.allocate_node(node_element, "donkey");
+newNode->value("Bruno")
+myDoc.first_node()->append_node(newNode);
+
+xml_attribute<> *newAttr = myDoc.allocate_attribute("age", "5");
+newNode->append_attribute(newAttr);
+
+``` 
+El código anterior produciría las siguientes líneas en XML: 
+```XML
+
+<donkey age="5">
+    Bruno
+<donkey/>
+
+``` 
+## Escribir un archivo XML 
+Debemos tener el árbol DOM con toda la información que queremos escribir en el XML. 
+```c++
+
+//Importante tener ambas directrices
+#include <fstream>
+using namespace std;
+
+//...//
+
+ofstream theNewFile("another.xml"); //Crea el archivo en la ubicación indicada
+
+stringstream ss;
+ss << *myDoc.first_node(); //Convierte el árbol DOM en un stringstream
+string stringXML = ss.str(); //Convierte de stringstream a string
+
+theNewFile << stringXML; //Escribe el string en el archivo
+theNewFile.close();
+
+``` 
+Ya tendremos un nuevo archivo XML con todo el teje y maneje de los datos.
