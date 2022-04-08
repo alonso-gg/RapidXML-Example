@@ -4,7 +4,7 @@ Este es un ejemplo de uso de la librería RapidXML para C++. La librería permit
 - [Descargar RapidXML](https://sourceforge.net/projects/rapidxml/files/latest/download) 
 - [Manual](http://rapidxml.sourceforge.net/manual.html)  
 
-
+### Contenidos
 1. [ Cómo implementar la librería. ](#implementarLibreria)
 2. [ Leer y parsear XML. ](#leerParsearXML)
 3. [ Recorrer la información. ](#recorrerInfo)
@@ -34,7 +34,7 @@ En resumen, debemos agregar el archivo `rapidxml_ext.hpp` en la carpeta de la li
 using namespace rapidxml;
 
 ``` 
-<a name="leerParsearXML"></a> 
+<a name="leerParsearXML"></a>
 
 ## Leer y parsear XML 
 Para leer el archivo XML usamos un objeto `file` que recibe la ubicación del archivo XML a leer. Por otro lado, para parsear y manipular la información necesitamos un objeto `xml_document`. Con el método `xml_document::parse()` enviamos la información del archivo al objeto para parsearla.
@@ -46,7 +46,7 @@ myDoc.parse<0>(theFile.data());
 
 ```
 Ahora toda la información está en un árbol DOM cuya raíz es el objeto `xml_document`. 
-<a name="recorrerInfo"></a> 
+<a name="recorrerInfo"></a>
 
 ## Recorrer la información 
 Recorrer la información se traduce en recorrer un árbol donde cada nodo representa cada elemento del XML. Los elementos del XML se representan como nodos declarados como objetos `xml_node`. Para obtener el _primer elemento_*_ del XML es tan simple como: 
@@ -85,7 +85,7 @@ xml_node<>* subNode2 = subNode1->next_sibling();
 
 ``` 
 En caso de que se haya llegado al final de una lista de nodos o de atributos, los métodos `xml_node::next_sibling()` y `xml_attribute::next_attribute()` retornan `NULL`. 
-<a name="buscarElemento"></a> 
+<a name="buscarElemento"></a>
 
 ## Buscar un elemento o atributo 
 Si queremos buscar un elemento o atributo específico, basta con escribir su nombre en el paréntesis cuando nos movemos por el árbol DOM. 
@@ -97,7 +97,7 @@ xml_attribute<>* theAge = theDog->first_attribute("age") //Atributo 'age' del el
 xml_node<>* theCat = theDog->next_sibling("cat"); //Primer elemento 'cat' que esté después del elemento 'dog'
 
 ``` 
-<a name="agregarElementos"></a> 
+<a name="agregarElementos"></a>
 
 ## Agregar nuevos elementos 
 Para agregar información a nuestro XML debemos usar métodos `allocate` para enlazar los nuevos strings con el árbol DOM. En caso de agregar un elemento, debemos indicar que es un  `node_element` y su nombre. Luego de esto podemos agregarle atributos y un valor. Para los atributos debemos indicar el nombre del atributo y su valor.
@@ -119,7 +119,7 @@ El código anterior produciría las siguientes líneas en XML:
 <donkey/>
 
 ``` 
-<a name="escribirXMl"></a> 
+<a name="escribirXMl"></a>
 
 ## Escribir un archivo XML 
 Debemos tener el árbol DOM con toda la información que queremos escribir en el XML. 
@@ -144,8 +144,11 @@ theNewFile.close();
 Ya tendremos un nuevo archivo XML con todo el teje y maneje de los datos.  
 
 ***
-ITCR Campus Centrar Cartago
-Análisis de algoritmos
-Caso 3 - Assigment
-Hecho por: Alonso Garita Granados
+ITCR Campus Centrar Cartago 
+
+Análisis de algoritmos 
+
+Caso 3 - Assigment 
+
+Hecho por: Alonso Garita Granados 
 
