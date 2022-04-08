@@ -120,4 +120,7 @@ theNewFile << stringXML; //Escribe el string en el archivo
 theNewFile.close();
 
 ``` 
-Ya tendremos un nuevo archivo XML con todo el teje y maneje de los datos.
+Ya tendremos un nuevo archivo XML con todo el teje y maneje de los datos.  
+
+Alonso Garita Granados
+Caso 3 - Assigment
