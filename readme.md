@@ -144,11 +144,8 @@ theNewFile.close();
 Ya tendremos un nuevo archivo XML con todo el teje y maneje de los datos.  
 
 ***
-ITCR Campus Centrar Cartago 
-
-Análisis de algoritmos 
-
-Caso 3 - Assigment 
-
-Hecho por: Alonso Garita Granados 
+###### ITCR Campus Centrar Cartago 
+###### Análisis de algoritmos 
+###### Caso 3 - Assigment 
+###### Hecho por: Alonso Garita Granados 
 
