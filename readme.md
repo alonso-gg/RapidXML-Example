@@ -4,27 +4,33 @@ Este es un ejemplo de uso de la librería RapidXML para C++. La librería permit
 - [Descargar RapidXML](https://sourceforge.net/projects/rapidxml/files/latest/download) 
 - [Manual](http://rapidxml.sourceforge.net/manual.html)  
 
+
+1. [ Description. ](#desc)
+2. [ Usage tips. ](#usage)
+
+<a name="desc"></a>
 ## Cómo implementar la librería 
 La librería se descarga como un archivo zip, una vez descomprimido el archivo tendremos una carpeta con los siguientes archivos: 
 
 - La licencia y el manual de la librería. 
-- ```rapidxml.hpp```: Es el archivo principal con las clases para la manipulación del XML. 
-- ```rapidxml_print.hpp```: Incluye métodos para imprimir el XML como texto y para convertir a string. 
-- ```rapidxml_iterators.hpp```: Iteradores para el manejo de memoria y el desplazamiento por el XML. 
-- ```rapidxml_utils.hpp```: Incluye una clase para leer el archivo y métodos para contar atributos y elementos. 
+- `rapidxml.hpp`: Es el archivo principal con las clases para la manipulación del XML. 
+- `rapidxml_print.hpp`: Incluye métodos para imprimir el XML como texto y para convertir a string. 
+- `rapidxml_iterators.hpp`: Iteradores para el manejo de memoria y el desplazamiento por el XML. 
+- `rapidxml_utils.hpp`: Incluye una clase para leer el archivo y métodos para contar atributos y elementos. 
 
 Sin embargo, la librería tiene un bug donde varios métodos en el archivo rapidxml\_print.hpp no están definidos. Puede ver este problema y su solución en StackOverflow: [Problema con el print header](https://stackoverflow.com/questions/14113923/rapidxml-print-header-has-undefined-methods). 
 
-En resumen, debemos agregar el archivo ```rapidxml_ext.hpp``` en la carpeta de la librería. Este archivo aparte de solucionar el bug, es el que incluiremos en nuestro código junto al ```namespace```. Además, podemos incluir ```rapidxml_utils.hpp``` para leer el archivo XML fácilmente. Así que en el preprocesador de nuestro código debemos tener lo siguiente: 
+En resumen, debemos agregar el archivo `rapidxml_ext.hpp` en la carpeta de la librería. Este archivo aparte de solucionar el bug, es el que incluiremos en nuestro código junto al `namespace`. Además, podemos incluir `rapidxml_utils.hpp` para leer el archivo XML fácilmente. Así que en el preprocesador de nuestro código debemos tener lo siguiente: 
 ```c++
 
 #include "rapidxml/rapidxml_ext.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 using namespace rapidxml;
 
-```
+``` 
+<a name="usage"></a>
 ## Leer y parsear XML 
-Para leer el archivo XML usamos un objeto ```file``` que recibe la ubicación del archivo XML a leer. Por otro lado, para parsear y manipular la información necesitamos un objeto ```xml_document```. Con el método ```xml_document::parse()``` enviamos la información del archivo al objeto para parsearla.
+Para leer el archivo XML usamos un objeto `file` que recibe la ubicación del archivo XML a leer. Por otro lado, para parsear y manipular la información necesitamos un objeto `xml_document`. Con el método `xml_document::parse()` enviamos la información del archivo al objeto para parsearla.
 ```c++
 
 file<> theFile("whatever.xml");
@@ -32,15 +38,15 @@ xml_document<> myDoc;
 myDoc.parse<0>(theFile.data());
 
 ```
-Ahora toda la información está en un árbol DOM cuya raíz es el objeto ```xml_document```. 
+Ahora toda la información está en un árbol DOM cuya raíz es el objeto `xml_document`. 
 ## Recorrer la información 
-Recorrer la información se traduce en recorrer un árbol donde cada nodo representa cada elemento del XML. Los elementos del XML se representan como nodos declarados como objetos ```xml_node```. Para obtener el _primer elemento_*_ del XML es tan simple como: 
+Recorrer la información se traduce en recorrer un árbol donde cada nodo representa cada elemento del XML. Los elementos del XML se representan como nodos declarados como objetos `xml_node`. Para obtener el _primer elemento_*_ del XML es tan simple como: 
 ```c++
 
 xml_node<>* firstNode = myDoc->first_node();
 
 ```
-Ahora ```firstNode``` apunta al primer elemento del XML. Para cada elemento podemos acceder a su nombre y valor, además nos podemos mover al siguiente elemento _en el mismo nivel_. 
+Ahora `firstNode` apunta al primer elemento del XML. Para cada elemento podemos acceder a su nombre y valor, además nos podemos mover al siguiente elemento _en el mismo nivel_. 
 ```c++
 
 string theName = firstNode->name();
@@ -48,7 +54,7 @@ string theValue = firstNode->value();
 xml_node<>* secondNode = firstNode->next_sibling();
 
 ```
-Para acceder a los atributos de un elemento primero debemos acceder al primero de ellos y luego desplazarnos por una lista, para esto usamos un objeto ```xml_attribute```. 
+Para acceder a los atributos de un elemento primero debemos acceder al primero de ellos y luego desplazarnos por una lista, para esto usamos un objeto `xml_attribute`. 
 ```c++
 
 xml_attribute<>* theAttrib = firstNode->first_attribute() //theAttrib apunta al primer atributo del elemento
@@ -69,7 +75,7 @@ xml_node<>* subNode1 = firstNode->first_node();
 xml_node<>* subNode2 = subNode1->next_sibling();
 
 ``` 
-En caso de que se haya llegado al final de una lista de nodos o de atributos, los métodos ```xml_node::next_sibling()``` y ```xml_attribute::next_attribute()``` retornan ```NULL```.
+En caso de que se haya llegado al final de una lista de nodos o de atributos, los métodos `xml_node::next_sibling()` y `xml_attribute::next_attribute()` retornan `NULL`.
 ## Buscar un elemento o atributo 
 Si queremos buscar un elemento o atributo específico, basta con escribir su nombre en el paréntesis cuando nos movemos por el árbol DOM. 
 ```c++
@@ -81,7 +87,7 @@ xml_node<>* theCat = theDog->next_sibling("cat"); //Primer elemento 'cat' que es
 
 ``` 
 ## Agregar nuevos elementos 
-Para agregar información a nuestro XML debemos usar métodos ```allocate``` para enlazar los nuevos strings con el árbol DOM. En caso de agregar un elemento, debemos indicar que es un  ```node_element``` y su nombre. Luego de esto podemos agregarle atributos y un valor. Para los atributos debemos indicar el nombre del atributo y su valor.
+Para agregar información a nuestro XML debemos usar métodos `allocate` para enlazar los nuevos strings con el árbol DOM. En caso de agregar un elemento, debemos indicar que es un  `node_element` y su nombre. Luego de esto podemos agregarle atributos y un valor. Para los atributos debemos indicar el nombre del atributo y su valor.
 ```c++
 
 xml_node<> *newNode = myDoc.allocate_node(node_element, "donkey");
@@ -121,6 +127,8 @@ theNewFile.close();
 
 ``` 
 Ya tendremos un nuevo archivo XML con todo el teje y maneje de los datos.  
+
+***
 
 Alonso Garita Granados
 Caso 3 - Assigment
