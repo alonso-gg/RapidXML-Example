@@ -45,11 +45,15 @@ int main(){
 
   //Modificar un atributo existente
   //Modifica el atributo indicado del primer elemento <path> que se encuentre
+  xml_node<> *modifyNode = myDoc.first_node()->first_node("path");
+
   string newDirection = "M 10 10 L 50 50 L 10 50 Z";
-  myDoc.first_node()->first_node("path")->first_attribute("d")->value(newDirection.c_str());
+  modifyNode->first_attribute("d")->value(newDirection.c_str());
 
   string newColor = "pink";
-  myDoc.first_node()->first_node("path")->first_attribute("stroke")->value(newColor.c_str());
+  modifyNode->first_attribute("stroke")->value(newColor.c_str());
+
+  modifyNode->next_sibling("g")->first_attribute("stroke")->value(newColor.c_str());
 
   //Insertar un nuevo elemento
   xml_node<> *newNode = myDoc.allocate_node(node_element, "path");
